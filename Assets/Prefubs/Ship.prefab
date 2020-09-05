@@ -428,7 +428,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 779713503409133083}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4eab77a105f352c4ba03607e804b0acd, type: 3}
   m_Name: 
@@ -452,13 +452,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 779713503409133083}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 43319fcfdc962aa4293b2b4ee6c1c1aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentWeaponClass: 2
-  _defaultDamage: 10
+  _defaultDamage: 15
   _maxDamage: 50
   _defaultCooldown: 50
   _minCooldown: 15

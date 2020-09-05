@@ -1,11 +1,10 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PrefabSettings : MonoBehaviour
 {
     [SerializeField] private GameObject _shipPrefab;
+    [SerializeField] private UiTMProText _currentWeaponText;
     
     private List<Weapon> _weapons = new List<Weapon>();
 
@@ -16,21 +15,6 @@ public class PrefabSettings : MonoBehaviour
            _weapons.Add(weapon);
         }
     }
-
-    private void Start()
-    {
-        ResetSettings();
-    }
-
-    private void ResetSettings()
-    {
-        foreach (var weapon in _weapons)
-        {
-            weapon.enabled = false;
-        }
-
-        _weapons[0].enabled = true;
-    }
     
     public void SetWeapon(int index)
     {
@@ -39,7 +23,7 @@ public class PrefabSettings : MonoBehaviour
             if ((int) weapon.CurrentWeaponClass == index)
             {
                 weapon.enabled = true;
-                Debug.Log($"Оружие установлено: {(Weapon.WeaponClass) index} {weapon.enabled}");
+                _currentWeaponText.SetText(weapon.GetType().ToString());
             }
             else
             {
