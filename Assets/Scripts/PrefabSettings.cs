@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PrefabSettings : MonoBehaviour
@@ -15,7 +16,7 @@ public class PrefabSettings : MonoBehaviour
            _weapons.Add(weapon);
         }
     }
-    
+
     public void SetWeapon(int index)
     {
         foreach (var weapon in _weapons)

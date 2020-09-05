@@ -10,6 +10,7 @@ public class PlayerShipSetup : MonoBehaviour
 
     private void Awake()
     {
+        // Инициализация singleton
         if (_instance == null)
         {
             _instance = this;
@@ -22,6 +23,7 @@ public class PlayerShipSetup : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    // Вызывается при загрузке главной игровой сцены
     private void SceneManagerOnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (String.Equals(scene.name, "Main"))
@@ -29,7 +31,7 @@ public class PlayerShipSetup : MonoBehaviour
             SpawnPlayerShip();
         }
     }
-
+    
     public void SpawnPlayerShip()
     {
         Instantiate(_playerShipPrefab, new Vector3(0f, -3f, 0f), Quaternion.identity);
