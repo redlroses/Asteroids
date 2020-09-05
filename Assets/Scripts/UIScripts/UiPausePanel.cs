@@ -1,21 +1,18 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class UiPausePanel : MonoBehaviour
 {
+    public static event EventHandler<bool> OnGamePause;
+
     [SerializeField] private GameObject _pausePanel;
 
-    private void PlayerInputHandlerOnGamePause(object sender, bool flag)
-    {
-        _pausePanel.SetActive(flag);
-    }
+    private bool _isPause;
 
-    private void OnEnable()
+    public void SwitchPause()
     {
-        PlayerInputHandler.OnGamePause += PlayerInputHandlerOnGamePause;
-    }
-
-    private void OnDisable()
-    {
-        PlayerInputHandler.OnGamePause -= PlayerInputHandlerOnGamePause;
+        _isPause = !_isPause;
+        _pausePanel.SetActive(_isPause);
+        OnGamePause?.Invoke(this, _isPause);
     }
 }

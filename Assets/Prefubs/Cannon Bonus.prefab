@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5888871280493276580}
   - component: {fileID: -4680475711370609126}
   - component: {fileID: -9100245877776586047}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Cannon Bonus
   m_TagString: Untagged
   m_Icon: {fileID: 0}

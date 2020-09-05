@@ -73,14 +73,14 @@ public class GameTimer : MonoBehaviour
     private void OnEnable()
     {
         WeaponUpgrade.OnWeaponUpgradeSpawns += WeaponUpgradeOnWeaponUpgradeSpawns;
-        PlayerInputHandler.OnGamePause += SetPauseTimeScale;
+        UiPausePanel.OnGamePause += SetPauseTimeScale;
         Shield.OnLoseGame += ShieldSystemOnLoseGame;
     }
 
     private void OnDisable()
     {
         WeaponUpgrade.OnWeaponUpgradeSpawns -= WeaponUpgradeOnWeaponUpgradeSpawns;
-        PlayerInputHandler.OnGamePause -= SetPauseTimeScale;
+        UiPausePanel.OnGamePause -= SetPauseTimeScale;
         Shield.OnLoseGame -= ShieldSystemOnLoseGame;
     }
 }

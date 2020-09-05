@@ -1,9 +1,8 @@
 using UnityEngine;
 
 public class BonusWeapon : Bonus
-{ 
-    public OldWeapon.WeaponType WeaponType { get; set; } = OldWeapon.WeaponType.Cannon;
-    
+{
+
     [SerializeField] private float _defaultUsedTime = 10f; //Время использования оружия по умолчанию
 
     protected override void ApplyBonus(Player player)

@@ -110,7 +110,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1181374379}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Laser Sprites
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,13 +205,12 @@ GameObject:
   - component: {fileID: 779713503409133082}
   - component: {fileID: 22919656}
   - component: {fileID: 22919655}
-  - component: {fileID: 22919646}
   - component: {fileID: 22919647}
   - component: {fileID: 22919648}
   - component: {fileID: 22919649}
   - component: {fileID: 22919653}
-  - component: {fileID: 8418269771772956468}
-  m_Layer: 10
+  - component: {fileID: 733809775}
+  m_Layer: 11
   m_Name: Ship
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -342,85 +341,6 @@ PolygonCollider2D:
       - {x: -0.5453686, y: -0.38279775}
       - {x: -0.21455577, y: -0.5}
       - {x: -0.17674859, y: -0.5}
---- !u!114 &22919646
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 779713503409133083}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: aecf95a03f9ea9b44952dd0587665821,
-    type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 22919649}
-        m_TargetAssemblyTypeName: PlayerMover, Assembly-CSharp
-        m_MethodName: OnMove
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 18b4e861-6f0d-4221-896e-2722ae710021
-    m_ActionName: Player/Move[/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameTimer, Assembly-CSharp
-        m_MethodName: OnPause
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: b9012213-f00b-4cf1-b058-d2ddd37449be
-    m_ActionName: UiControl/Pause[/Keyboard/escape,/Keyboard/p]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8418269771772956468}
-        m_TargetAssemblyTypeName: PlayerInputHandler, Assembly-CSharp
-        m_MethodName: OnPause
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 9d9eeb90-4aa5-4148-a1e6-67fd402a1e78
-    m_ActionName: Player/Pause[/Keyboard/escape,/Keyboard/p]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Keyboard&Mouse
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!114 &22919647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,7 +385,7 @@ MonoBehaviour:
   _distance: 4
   mask:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 256
   _laserBeam: {fileID: 449124325}
   _laserSpark: {fileID: 3487426969815479506}
   _spawnPoint: {fileID: 2711746741907504507}
@@ -481,7 +401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d514452930b523344a81dbf3557e45b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defaultMoveSpeed: 3
+  _defaultMoveSpeed: 30
   _maxMoveSpeed: 8
 --- !u!114 &22919653
 MonoBehaviour:
@@ -513,7 +433,7 @@ MonoBehaviour:
   _shieldCharges: 1
   _shieldRechargeTime: 2.75
   _maxShieldCharges: 3
---- !u!114 &8418269771772956468
+--- !u!114 &733809775
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -522,7 +442,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 779713503409133083}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee4aa89264e1ff44f920ff80546f008f, type: 3}
+  m_Script: {fileID: 11500000, guid: 2388ff8274cace34bbbe46254ade4bbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &995736363223758116
@@ -534,7 +454,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2711746741907504507}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -564,7 +484,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6662048269803809221}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Level 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -595,7 +515,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7857303604797927529}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Point (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -625,7 +545,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 969045263065958137}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Level 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -656,7 +576,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 439615119226003882}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Level 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -689,7 +609,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1853521193078846232}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -719,7 +639,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8684284321534927965}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Laser Spawn Points
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -750,7 +670,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1508420935267607388}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Cannon Spawn Points
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -783,7 +703,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7317006468685927867}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Point (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -813,7 +733,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5322073046360069539}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Level 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -845,7 +765,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5011661131302092321}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}

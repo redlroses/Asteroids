@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2159814256435034469}
   - component: {fileID: 2159814256435034470}
   - component: {fileID: 2159814256435034490}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Weapon Upgrade
   m_TagString: Untagged
   m_Icon: {fileID: 0}

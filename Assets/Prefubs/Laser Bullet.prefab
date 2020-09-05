@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6338429111593801951}
   - component: {fileID: -6545986142241022214}
   - component: {fileID: -3774956496876893801}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Laser Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 1.1
   _destroyTime: 1.5
-  _damage: 20
+  _damage: 100
 --- !u!50 &-6545986142241022214
 Rigidbody2D:
   serializedVersion: 4

@@ -14,10 +14,10 @@ TagManager:
   - UI
   - 
   - 
-  - Bullet
+  - Asteroid
+  - Projectile
   - Bonus
   - Player
-  - Asteroid
   - 
   - 
   - 
@@ -43,5 +43,5 @@ TagManager:
     uniqueID: 0
     locked: 0
   - name: StarsBG
-    uniqueID: 3715706395
+    uniqueID: 2727232013
     locked: 0
