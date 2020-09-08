@@ -12,7 +12,21 @@ public class UiPausePanel : MonoBehaviour
     public void SwitchPause()
     {
         _isPause = !_isPause;
-        _pausePanel.SetActive(_isPause);
-        OnGamePause?.Invoke(this, _isPause);
+        SetPause(_isPause);
+    }
+
+    private void SetPause(bool isPause)
+    {
+        _pausePanel.SetActive(isPause);
+        OnGamePause?.Invoke(this, isPause);
+    }
+
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        if (hasFocus == false)
+        {
+            _isPause = true;
+            SetPause(_isPause);
+        }
     }
 }

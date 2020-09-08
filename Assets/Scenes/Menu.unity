@@ -505,6 +505,7 @@ GameObject:
   m_Component:
   - component: {fileID: 285349743}
   - component: {fileID: 285349744}
+  - component: {fileID: 285349745}
   m_Layer: 0
   m_Name: DontDestroyOnLoad
   m_TagString: Untagged
@@ -540,6 +541,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerShipPrefab: {fileID: 779713503409133083, guid: c6e49ba5b86c47145bc8537d24163fe7,
     type: 3}
+--- !u!114 &285349745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 285349742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d19b4d9d023524a831af3fef4a6be6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &357461883
 GameObject:
   m_ObjectHideFlags: 0
@@ -1378,7 +1391,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Settings
+  m_text: Options
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9c0ebb2a8fcc6f14995e64e86bb21d40, type: 2}
   m_sharedMaterial: {fileID: 7381427682378879721, guid: 9c0ebb2a8fcc6f14995e64e86bb21d40,
@@ -1736,7 +1749,7 @@ GameObject:
   - component: {fileID: 1212182605}
   - component: {fileID: 1212182604}
   m_Layer: 5
-  m_Name: Settings
+  m_Name: Options
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1878,7 +1891,6 @@ GameObject:
   - component: {fileID: 1358282082}
   - component: {fileID: 1358282081}
   - component: {fileID: 1358282080}
-  - component: {fileID: 1358282079}
   m_Layer: 0
   m_Name: 'Main Camera '
   m_TagString: MainCamera
@@ -1886,28 +1898,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1358282079
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1358282078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b63c3abbc420fcf409702866fdd9b774, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resolutionChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  allowFullscreen: 0
-  aspectRatioWidth: 1
-  aspectRatioHeight: 2
-  minWidthPixel: 325
-  minHeightPixel: 650
-  maxWidthPixel: 500
-  maxHeightPixel: 1000
 --- !u!81 &1358282080
 AudioListener:
   m_ObjectHideFlags: 0
@@ -3142,7 +3132,7 @@ GameObject:
   - component: {fileID: 2060981228}
   - component: {fileID: 2060981227}
   m_Layer: 5
-  m_Name: Settings Panel
+  m_Name: Options Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
