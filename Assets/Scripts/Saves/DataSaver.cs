@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using PlayerPrefs = PreviewLabs.PlayerPrefs;
+//using PlayerPrefs = PreviewLabs.PlayerPrefs;
 
 public class DataSaver : MonoBehaviour
 {
@@ -62,15 +62,18 @@ public class DataSaver : MonoBehaviour
 #if UNITY_ANDROID && !UNITY_EDITOR
     private void OnApplicationPause(bool pause)
     {
-        PlayerPrefs.SetString(RecordKey, JsonUtility.ToJson(_recordsSaveData));
-        PlayerPrefs.Flush();
+        if (pause)
+        {
+            PlayerPrefs.SetString(RecordKey, JsonUtility.ToJson(_recordsSaveData));
+            PlayerPrefs.Save();
+        }
     }
 #endif
     
     private void OnApplicationQuit()
     {
         PlayerPrefs.SetString(RecordKey, JsonUtility.ToJson(_recordsSaveData));
-        PlayerPrefs.Flush();
+        PlayerPrefs.Save();
         Debug.Log("Saved");
     }
 }
@@ -79,7 +82,7 @@ public class DataSaver : MonoBehaviour
 public class RecordsSaveData
 {
     public List<int> Records = new List<int>();
-    private int _maxRecordsCount = 5;
+    private int _maxRecordsCount = 99;
 
     public void AddRecord(int score)
     {
