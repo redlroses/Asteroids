@@ -4,13 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(TextMeshPro))]
 public class AsteroidScore : MonoBehaviour
 {
-    private TextMeshPro _text;
-
-    private void Awake()
-    {
-        _text = GetComponent<TextMeshPro>();
-    }
-
+    [SerializeField] private TextMeshPro _text;
+    
     public void SetScoreText(int score)
     {
         _text.SetText($"+{score}");

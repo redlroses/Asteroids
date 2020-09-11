@@ -19,11 +19,13 @@ public class Asteroid : MonoBehaviour
     [SerializeField] private Transform _asteroidsParent;
     [SerializeField] private GameObject _asteroidScorePrefab;
 
+    private AsteroidScore _asteroidScore;
     private Rigidbody2D _rigidbody;
     private bool _isDestroyed = false; //Используется для исправления бага со спавном нескольких пар астеройдов
 
     private void Start()
     {
+        _asteroidScore = _asteroidScorePrefab.GetComponent<AsteroidScore>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _asteroidsParent = transform.parent;
         Move();
@@ -60,9 +62,10 @@ public class Asteroid : MonoBehaviour
         OnAsteroidDestroy?.Invoke(this, (int)_currentSize);
         
         // Создание информационного угасающего текста с количеством очков за уничтожение астероида 
-        var asteroidScore = Instantiate(_asteroidScorePrefab, transform.position, Quaternion.identity).GetComponent<AsteroidScore>();
-        asteroidScore.SetScoreText(ScoreCounter.ScoreBySize((int)_currentSize));
         
+        _asteroidScore.SetScoreText(ScoreCounter.PointsBySize((int)_currentSize));
+        Instantiate(_asteroidScorePrefab, transform.position, Quaternion.identity);
+
         Destroy(gameObject);
     }
     

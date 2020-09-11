@@ -17,6 +17,11 @@ public class PrefabSettings : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        SetWeapon(2);
+    }
+
     public void SetWeapon(int index)
     {
         foreach (var weapon in _weapons)

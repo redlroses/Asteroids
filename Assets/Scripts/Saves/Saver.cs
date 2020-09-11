@@ -7,8 +7,22 @@ using PlayerPrefs = PreviewLabs.PlayerPrefs;
 public class Saver : MonoBehaviour
 {
     private static RecordsSaveData _recordsSaveData = new RecordsSaveData();
-    private const string _recordKey = "RecordKey";
+    private const string RecordKey = "RecordKey";
 
+    /// <summary>
+    /// Returns high score on local leader board
+    /// </summary>
+    /// <returns></returns>
+    public static int GetHighRecord()
+    {
+        if (_recordsSaveData.Records.Count > 0)
+        {
+            return _recordsSaveData.Records[0];
+        }
+
+        return 0;
+    }
+    
     /// <summary>
     /// Adding new score
     /// </summary>
@@ -16,6 +30,11 @@ public class Saver : MonoBehaviour
     public static void AddRecord(int score)
     {
         _recordsSaveData.AddRecord(score);
+        
+        foreach (var record in GetRecords())
+        {
+            Debug.Log(record);
+        }
     }
 
     /// <summary>
@@ -26,13 +45,13 @@ public class Saver : MonoBehaviour
     {
         return _recordsSaveData.Records;
     }
-
+    
     private void Start()
     {
-        if (PlayerPrefs.HasKey(_recordKey))
+        if (PlayerPrefs.HasKey(RecordKey))
         {
-            _recordsSaveData = JsonUtility.FromJson<RecordsSaveData>(PlayerPrefs.GetString(_recordKey));
-
+            _recordsSaveData = JsonUtility.FromJson<RecordsSaveData>(PlayerPrefs.GetString(RecordKey));
+            
             foreach (var record in GetRecords())
             {
                 Debug.Log(record);
@@ -43,14 +62,16 @@ public class Saver : MonoBehaviour
 #if UNITY_ANDROID && !UNITY_EDITOR
     private void OnApplicationPause(bool pause)
     {
-        PlayerPrefs.SetString(_recordKey, JsonUtility.ToJson(_recordsSaveData));
+        PlayerPrefs.SetString(RecordKey, JsonUtility.ToJson(_recordsSaveData));
         PlayerPrefs.Flush();
     }
 #endif
+    
     private void OnApplicationQuit()
     {
-        PlayerPrefs.SetString(_recordKey, JsonUtility.ToJson(_recordsSaveData));
+        PlayerPrefs.SetString(RecordKey, JsonUtility.ToJson(_recordsSaveData));
         PlayerPrefs.Flush();
+        Debug.Log("Saved");
     }
 }
 
@@ -58,10 +79,12 @@ public class Saver : MonoBehaviour
 public class RecordsSaveData
 {
     public List<int> Records = new List<int>();
-    private int _maxRecordsCount = 5; 
-    
+    private int _maxRecordsCount = 5;
+
     public void AddRecord(int score)
     {
+        Debug.Log("Add new record");
+
         // Проверка на нахождение рекорда с тем же количеством очков в памяти
         // Если такой рекорд уже есть - выходим из метода
         foreach (var record in Records)
@@ -72,6 +95,7 @@ public class RecordsSaveData
             }
         }
 
+        // Сортировка по убыванию при добавлении нового рекорда
         Records.Add(score);
         Records.Sort();
         Records.Reverse();
@@ -79,8 +103,8 @@ public class RecordsSaveData
         // В списке рекордов не может быть больше чем {_maxRecordsCount} позиций
         if (Records.Count > _maxRecordsCount)
         {
+            Debug.Log("Remove");
             Records.Remove(Records.Last());
         }
     }
-    
 }

@@ -4,12 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(TextMeshProUGUI))]
 public class UiTMProText : MonoBehaviour
 {
-    private TextMeshProUGUI _text;
-
-    private void Awake()
-    {
-        _text = GetComponent<TextMeshProUGUI>();
-    }
+    [SerializeField] private TextMeshProUGUI _text;
 
     public void SetText(string text)
     {
