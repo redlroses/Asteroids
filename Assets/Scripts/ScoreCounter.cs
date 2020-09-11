@@ -43,12 +43,12 @@ public class ScoreCounter : MonoBehaviour
     // Вызывается событием Юнити при выходе в меню из панели паузы или панели проигрыша 
     public void SaveScore()
     {
-        Saver.AddRecord(_currentScore);
+        DataSaver.AddRecord(_currentScore);
     }
 
     private void Start()
     {
-        _highScoreRecord = Saver.GetHighRecord();
+        _highScoreRecord = DataSaver.GetHighRecord();
 
         // Инициализация контейнера очков
         // Скейл очков на базе факториала 

@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using PlayerPrefs = PreviewLabs.PlayerPrefs;
 
-public class Saver : MonoBehaviour
+public class DataSaver : MonoBehaviour
 {
     private static RecordsSaveData _recordsSaveData = new RecordsSaveData();
     private const string RecordKey = "RecordKey";

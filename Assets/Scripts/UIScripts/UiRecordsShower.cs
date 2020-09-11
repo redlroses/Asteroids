@@ -12,7 +12,7 @@ public class UiRecordsShower : MonoBehaviour
         _uiRecord = _scorePanelPrefab.GetComponent<UiRecord>();
 
         short count = 0;
-        foreach (var record in Saver.GetRecords())
+        foreach (var record in DataSaver.GetRecords())
         {
             count++;
             _uiRecord.SetData(count, record);
