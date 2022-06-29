@@ -2,12 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-//using PlayerPrefs = PreviewLabs.PlayerPrefs;
+using PlayerPrefs = PreviewLabs.PlayerPrefs;
 
 public class DataSaver : MonoBehaviour
 {
+    public static int WeaponClass
+    {
+        get => _weaponClass;
+        set => _weaponClass = value;
+    }
+    
     private static RecordsSaveData _recordsSaveData = new RecordsSaveData();
+    private static int _weaponClass = 1;
+    
     private const string RecordKey = "RecordKey";
+    private const string ChosenWeapon = "ChoosenWeapon";
+    
 
     /// <summary>
     /// Returns high score on local leader board
@@ -57,6 +67,18 @@ public class DataSaver : MonoBehaviour
                 Debug.Log(record);
             }
         }
+
+        if (PlayerPrefs.HasKey(ChosenWeapon))
+        {
+            _weaponClass = PlayerPrefs.GetInt(ChosenWeapon, 1);
+        }
+    }
+
+    private void Save()
+    {
+        PlayerPrefs.SetString(RecordKey, JsonUtility.ToJson(_recordsSaveData));
+        PlayerPrefs.SetInt(ChosenWeapon, _weaponClass);
+        PlayerPrefs.Flush();
     }
 
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -64,17 +86,14 @@ public class DataSaver : MonoBehaviour
     {
         if (pause)
         {
-            PlayerPrefs.SetString(RecordKey, JsonUtility.ToJson(_recordsSaveData));
-            PlayerPrefs.Save();
+            Save();
         }
     }
 #endif
     
     private void OnApplicationQuit()
     {
-        PlayerPrefs.SetString(RecordKey, JsonUtility.ToJson(_recordsSaveData));
-        PlayerPrefs.Save();
-        Debug.Log("Saved");
+        Save();
     }
 }
 
