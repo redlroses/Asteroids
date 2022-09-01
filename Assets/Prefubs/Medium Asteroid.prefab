@@ -23,13 +23,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 44441547624213491}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.3, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0.322, y: 0.034, z: 0}
   m_LocalScale: {x: 1.25, y: 1.25, z: 1}
   m_Children: []
   m_Father: {fileID: 9075870682202658323}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!1 &3401863616034461793
 GameObject:
   m_ObjectHideFlags: 0
@@ -53,13 +53,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3401863616034461793}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.3, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -0.281, y: 0.061, z: 0}
   m_LocalScale: {x: 1.25, y: 1.25, z: 1}
   m_Children: []
   m_Father: {fileID: 9075870682202658323}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!1 &4532611573187855591
 GameObject:
   m_ObjectHideFlags: 0
@@ -71,8 +71,8 @@ GameObject:
   - component: {fileID: 9075870682202658323}
   - component: {fileID: 3342400474515043922}
   - component: {fileID: 3946073653063139089}
-  - component: {fileID: 3908930551893855571}
   - component: {fileID: 3716341397362429944}
+  - component: {fileID: 6526750651269673888}
   m_Layer: 8
   m_Name: Medium Asteroid
   m_TagString: Untagged
@@ -168,31 +168,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &3908930551893855571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4532611573187855591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9eb1138806af164d8c748311c08e8cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _hitPoints: 1000
-  _moveSpeed: 200
-  _rotationsSpeed: 10
-  _currentSize: 1
-  _asteroidPrefub: {fileID: 1284166874517548371, guid: 0287784d2c408a04c92ae4396a5ae1e5,
-    type: 3}
-  _fragmentationRange: 2
-  _spawnPositions:
-  - {fileID: 8006242521571147}
-  - {fileID: 8551369833665922132}
-  _asteroidsParent: {fileID: 0}
-  _asteroidScorePrefab: {fileID: 5613601240350352903, guid: acfbecab85fa1aa49917e6f95c536480,
-    type: 3}
 --- !u!58 &3716341397362429944
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -209,3 +184,23 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.59
+--- !u!114 &6526750651269673888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4532611573187855591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9eb1138806af164d8c748311c08e8cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitPoints: 1000
+  _scoreAmount: 200
+  _moveSpeedRange: {x: 125, y: 175}
+  _rotationSpeedRange: {x: -100, y: 100}
+  _size: 1
+  _spawnPositions:
+  - {fileID: 8551369833665922132}
+  - {fileID: 8006242521571147}

@@ -3,105 +3,90 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Asteroid : MonoBehaviour
+public class Asteroid : MonoBehaviour, IPoolable<Asteroid>
 {
-    public enum Size { Small, Medium, Big };
+    public enum SizeType { Small, Medium, Big }
 
-    public static event EventHandler<int> OnAsteroidDestroy;
+    public event Action<Asteroid> OnDisabled;
 
-    [SerializeField] private int _hitPoints = 0;
-    [SerializeField] private float _moveSpeed = 0;
-    [SerializeField] private float _rotationsSpeed = 0;
-    [SerializeField] private Size _currentSize;
-    [SerializeField] private GameObject _asteroidPrefub = null;
-    [SerializeField] private float _fragmentationRange;
+    [SerializeField] private int _hitPoints;
+    [SerializeField] private int _scoreAmount;
+    [SerializeField] private Vector2 _moveSpeedRange;
+    [SerializeField] private Vector2 _rotationSpeedRange;
+    [SerializeField] private SizeType _size;
     [SerializeField] private Transform[] _spawnPositions;
-    [SerializeField] private Transform _asteroidsParent;
-    [SerializeField] private GameObject _asteroidScorePrefab;
 
-    private AsteroidScore _asteroidScore;
+    private int _currentHitPoints;
     private Rigidbody2D _rigidbody;
-    private bool _isDestroyed = false; //Используется для исправления бага со спавном нескольких пар астеройдов
+    private ScoreCounter _scoreCounter;
+    private bool _isDestroyedByPlayer = false;
 
-    private void Start()
+    public SizeType Size => _size;
+    public Transform[] SpawnPositions => _spawnPositions;
+    public Vector2 Velocity => _rigidbody.velocity;
+    public bool IsDestroyedByPlayer => _isDestroyedByPlayer;
+    public int ScoreAmount => _scoreAmount;
+
+    private void Awake()
     {
-        _asteroidScore = _asteroidScorePrefab.GetComponent<AsteroidScore>();
         _rigidbody = GetComponent<Rigidbody2D>();
-        _asteroidsParent = transform.parent;
-        Move();
-        Destroy(gameObject, 25f);
     }
 
-    private void Move()
+    private void OnTriggerExit2D(Collider2D other)
     {
-        _rigidbody.AddRelativeForce(Vector2.up * _moveSpeed * Random.Range(1f, 1.5f), ForceMode2D.Impulse);
-        _rigidbody.AddTorque(_rotationsSpeed * Random.Range(-1f, 1f), ForceMode2D.Impulse);
+        if (gameObject.activeSelf && other.TryGetComponent(out OutOfBoundsDestroyer destroyer))
+        {
+            Disable();
+        }
+    }
+
+    public bool GetActiveSelf()
+    {
+        return gameObject.activeSelf;
+    }
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
+    }
+
+    public void Enable()
+    {
+        _isDestroyedByPlayer = false;
+        _currentHitPoints = _hitPoints;
+        Move();
     }
 
     public void TakeDamage(int damage)
     {
-        if (damage <= 0) Debug.LogError("Damage of projectile low then zero");
-
-        _hitPoints -= damage;
-
-        if (_hitPoints <= 0 && !_isDestroyed)
+        if (damage <= 0)
         {
-            _isDestroyed = true;
-            Collapse(); 
-        }
-    }
-
-    //Разрушение астеройда от оружия
-    private void Collapse()
-    {
-        if (_currentSize > 0)
-        {
-            SpawnNewAsteroids();
+            throw new ArgumentException("Damage of projectile low then zero", nameof(damage));
         }
 
-        OnAsteroidDestroy?.Invoke(this, (int)_currentSize);
-        
-        // Создание информационного угасающего текста с количеством очков за уничтожение астероида 
-        
-        _asteroidScore.SetScoreText(ScoreCounter.PointsBySize((int)_currentSize));
-        Instantiate(_asteroidScorePrefab, transform.position, Quaternion.identity);
+        _currentHitPoints -= damage;
 
-        Destroy(gameObject);
+        if (_currentHitPoints > 0 || _isDestroyedByPlayer)
+            return;
+
+        _isDestroyedByPlayer = true;
+        Disable();
     }
-    
-    //Разрушение астеройда от соприкосновения со щитом
+
     public void CollapseByShield()
     {
-        _isDestroyed = true;
-        Destroy(gameObject);
+        Disable();
     }
 
-    private void SpawnNewAsteroids()
+    private void Move()
     {
-        bool leftOrRight = true;
-        for (int i = 0; i < 2; i++)
-        {
-            Quaternion asteroidRotation = RandomizeDirection(_fragmentationRange, leftOrRight);
-            Instantiate(_asteroidPrefub, _spawnPositions[i].position, asteroidRotation, _asteroidsParent);
-            leftOrRight = !leftOrRight;
-        }
+        _rigidbody.AddRelativeForce(Vector2.up * Random.Range(_moveSpeedRange.x, _moveSpeedRange.y),
+            ForceMode2D.Impulse);
+        _rigidbody.AddTorque(Random.Range(_rotationSpeedRange.x, _rotationSpeedRange.y), ForceMode2D.Impulse);
     }
 
-    //Выбор случайного вектора разлёта созданных астеройдов
-    private Quaternion RandomizeDirection(float limit, bool leftOrRight)
+    private void Disable()
     {
-        Vector2 prevDirection = _rigidbody.velocity;
-        Vector2 perpendicular = Vector2.Perpendicular(prevDirection).normalized;
-        Vector2 newDirection = prevDirection + perpendicular * Random.Range(0, limit) * Convert.ToInt32(leftOrRight);
-        float angle = Vector2.SignedAngle(Vector2.up, newDirection);
-        return Quaternion.AngleAxis(angle, Vector3.forward);
-    }
-
-    private void OnTriggerExit2D(Collider2D collider)
-    {
-        if (collider.gameObject.TryGetComponent(out OutOfBoundsDestroyer destroyer))
-        {
-            Destroy(gameObject);
-        }
+        OnDisabled?.Invoke(this);
     }
 }

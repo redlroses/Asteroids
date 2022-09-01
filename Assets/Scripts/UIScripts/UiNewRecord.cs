@@ -1,9 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Animation))]
 public class UiNewRecord : MonoBehaviour
 {
+    [SerializeField] private ScoreCounter _scoreCounter;
+    
     private Animation _animation;
 
     private void Start()
@@ -11,18 +12,18 @@ public class UiNewRecord : MonoBehaviour
         _animation = GetComponent<Animation>();
     }
 
-    private void StartAnimation(object sender, EventArgs e)
-    {
-        _animation.Play();
-    }
-
     private void OnEnable()
     {
-        ScoreCounter.OnNewRecord += StartAnimation;
+        _scoreCounter.OnNewRecord += StartAnimation;
     }
 
     private void OnDisable()
     {
-        ScoreCounter.OnNewRecord -= StartAnimation;
+        _scoreCounter.OnNewRecord -= StartAnimation;
+    }
+
+    private void StartAnimation()
+    {
+        _animation.Play();
     }
 }

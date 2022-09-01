@@ -1,58 +1,55 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Laser : Weapon
 {
-    [SerializeField] private float _distance;
-    [SerializeField] private LayerMask mask;
+    private const string LaserBeamWarmingUp = "LaserBeamWarmingUp";
+    private const string LaserBeamCooling = "LaserBeamCooling";
+
+    private readonly float _laserBeamSizeY = 0.25f;
+    
+    [SerializeField] private float _distance = 2.5f;
+    [SerializeField] private float _distanceUpgrade = 1.5f;
+    [SerializeField] private LayerMask _hitMask;
     [SerializeField] private SpriteRenderer _laserBeam;
     [SerializeField] private SpriteRenderer _laserSpark;
     [SerializeField] private Transform _spawnPoint;
 
     private LineRenderer _lineRenderer;
-    private float _laserLenght;
-    private Vector2 _defaultLaserBeamSize;
     private Animation _laserBeamAnimation;
-    private State _currentLaserState = State.Deactive;
+    private GameObject _lastDamageableAsteroid;
+    private Asteroid _lastDamageableAsteroidComponent;
+    private float _laserLength;
+    private bool _isActive;
 
-    private const string LaserBeamWarmingUp = "LaserBeamWarmingUp";
-    private const string LaserBeamCooling = "LaserBeamCooling";
-
-    private enum State
+    public override void Shoot()
     {
-        Deactive,
-        Active
+        var hit = Physics2D.Raycast(_spawnPoint.position, Vector2.up, _distance, _hitMask);
+
+        if (hit == false)
+        {
+            return;
+        }
+        
+        var currentDamageableAsteroid = hit.transform.gameObject;
+        
+        if (currentDamageableAsteroid.Equals(_lastDamageableAsteroid) == false)
+        {
+            _lastDamageableAsteroid = currentDamageableAsteroid;
+            _lastDamageableAsteroidComponent = currentDamageableAsteroid.GetComponent<Asteroid>();
+        }
+            
+        _lastDamageableAsteroidComponent.TakeDamage(Damage);
     }
 
-    protected override void Shoot()
+    public override void Initialize(Transform projectilesContainer)
     {
-        //.DrawRay(transform.position, Vector2.up * _distance, Color.blue);
-        var hit = Physics2D.Raycast(_spawnPoint.position, Vector2.up, _distance, mask);
-
-        if (hit)
-        {
-            hit.transform.GetComponent<Asteroid>().TakeDamage(Damage);
-            //Debug.DrawLine(transform.position, hit.point, Color.red);
-            //Debug.Log(hit.collider.ToString());
-        }
+        InitializeParameters();
+        _laserBeamAnimation = _laserBeam.GetComponent<Animation>();
     }
 
     protected override void UpgradeWeapon()
     {
-        weaponLevel++;
-
-        if (weaponLevel == 2)
-        {
-            MaxLevel();
-        }
-
-        _distance += 1.5f;
-    }
-
-    protected override void Initialize()
-    {
-        _defaultLaserBeamSize = new Vector2(_distance, 0.25f);
-        _laserBeamAnimation = _laserBeam.GetComponent<Animation>();
+        _distance += _distanceUpgrade;
     }
 
     private void LateUpdate()
@@ -62,28 +59,27 @@ public class Laser : Weapon
 
     private void VisualizeLaser()
     {
-        var hit = Physics2D.Raycast(_spawnPoint.position, Vector2.up, _distance, mask);
+        var hit = Physics2D.Raycast(_spawnPoint.position, Vector2.up, _distance, _hitMask);
 
         if (hit)
         {
-            _laserBeam.size = new Vector2(hit.distance, 0.25f);
+            _laserBeam.size = new Vector2(hit.distance, _laserBeamSizeY);
             _laserSpark.enabled = true;
             _laserSpark.transform.position = hit.point;
-            PlayAnimation(LaserBeamWarmingUp, State.Active);
+            PlayAnimation(LaserBeamWarmingUp, true);
         }
         else
         {
-            //_laserBeam.size = _defaultLaserBeamSize;
             _laserSpark.enabled = false;
-            PlayAnimation(LaserBeamCooling, State.Deactive);
+            PlayAnimation(LaserBeamCooling, false);
         }
     }
 
-    private void PlayAnimation(string name, State newState)
+    private void PlayAnimation(string animationName, bool newState)
     {
-        if (newState == _currentLaserState) return;
+        if (newState == _isActive) return;
 
-        _laserBeamAnimation.Play(name);
-        _currentLaserState = newState;
+        _laserBeamAnimation.Play(animationName);
+        _isActive = newState;
     }
 }

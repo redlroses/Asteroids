@@ -1,55 +1,45 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Cannon : Weapon
 {
-    [SerializeField] private GameObject _bulletPrefab;
-    [SerializeField] private Transform _projectilesParent;
-    [SerializeField] private Transform[] _levelSpawnPoints = default;
-    
-    private LaserBullet _bullet;
+    [SerializeField] private LaserBullet _bullet;
+    [SerializeField] private Transform _projectilesContainer;
+    [SerializeField] private Transform[] _levelShootPoints;
 
-    protected override void Initialize()
+    public override void Shoot()
     {
-        SetSpawnPoints(0);
-    }
-
-    protected override void Shoot()
-    {
-        foreach (var point in spawnPoints)
+        foreach (var point in ShootPoints)
         {
-            Instantiate(_bulletPrefab, point.position, point.rotation, _projectilesParent);
+            Instantiate(_bullet, point.position, point.rotation, _projectilesContainer);
         }
     }
 
-    protected override void SetProjectileDamage()
+    public override void Initialize(Transform projectilesContainer)
     {
-        _bullet.SetDamage(Damage);
+        InitializeParameters();
+        OnDamageChanged += SetProjectileDamage; //TODO: сделать прямую зависимость без события
+        SetProjectileDamage(Damage);
+        _projectilesContainer = projectilesContainer;
+        SetSpawnPoints(0);
     }
 
     protected override void UpgradeWeapon()
     {
-        weaponLevel++;
-
-        if (weaponLevel == _levelSpawnPoints.Length - 1)
-        {
-            MaxLevel();
-        }
-        
-        SetSpawnPoints(weaponLevel);
+        SetSpawnPoints(WeaponLevel);
     }
 
-    private void Awake()
+    private void SetProjectileDamage(int damage)
     {
-        _bullet = _bulletPrefab.GetComponent<LaserBullet>();
-        _projectilesParent = GameObject.FindWithTag("Projectile").transform;
+        _bullet.SetDamage(damage);
     }
-    
+
     private void SetSpawnPoints(int level)
     {
-        spawnPoints.Clear();
-        foreach (Transform point in _levelSpawnPoints[level])
+        ShootPoints.Clear();
+        foreach (Transform point in _levelShootPoints[level])
         {
-            spawnPoints.Add(point);
+            ShootPoints.Add(point);
         }
     }
 }

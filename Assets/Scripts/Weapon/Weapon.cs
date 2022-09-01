@@ -1,19 +1,25 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Weapon : Player
+public abstract class Weapon : MonoBehaviour
 {
-    public enum WeaponClass
-    {
-        None = 0,
-        Cannon = 1,
-        Laser = 2
-    }
+    public event Action OnMaxWeaponLevel;
+    public event Action<int> OnDamageChanged;
 
-    public WeaponClass CurrentWeaponClass => currentWeaponClass;
+    protected readonly List<Transform> ShootPoints = new List<Transform>();
     
+    [SerializeField] private int _defaultDamage;
+    [SerializeField] private int _maxDamage;
+    [SerializeField] private float _defaultCooldown;
+    [SerializeField] private float _minCooldown;
+    [SerializeField] private int _maxWeaponLevelUpgrade;
+
+    protected int WeaponLevel;
+
+    private int _damage;
+    private float _cooldown;
+
     public int DefaultDamage => _defaultDamage;
 
     public float DefaultCooldown => _defaultCooldown;
@@ -21,103 +27,54 @@ public abstract class Weapon : Player
     public float Cooldown
     {
         get => _cooldown;
-        set
-        {
-            _cooldown = value;
-
-            if (_cooldown <= _minCooldown)
-            {
-                _cooldown = _minCooldown;
-                OnMinCooldown?.Invoke(this, EventArgs.Empty);
-            }
-
-            cooldownWaitForSeconds = new WaitForSeconds(_cooldown / 1000f);
-        }
+        private set => _cooldown = value < _minCooldown ? _minCooldown : value;
     }
 
     public int Damage
     {
         get => _damage;
-        set
+        private set
         {
-            _damage = value;
-
-            if (_damage >= _maxDamage)
-            {
-                _damage = _maxDamage;
-                OnMaxDamage?.Invoke(this, EventArgs.Empty);
-            }
-
-            SetProjectileDamage();
+            _damage = value > _maxDamage ? _maxDamage : value;
+            OnDamageChanged?.Invoke(_damage);
         }
     }
 
-    public static event EventHandler OnMaxDamage;
-    public static event EventHandler OnMinCooldown;
-    public static event EventHandler<bool> OnMaxWeaponLevel;
+    public abstract void Shoot();
 
-    [SerializeField] protected WeaponClass currentWeaponClass;
+    public abstract void Initialize(Transform projectilesContainer);
 
-    [SerializeField] private int _defaultDamage = default;
-    [SerializeField] private int _maxDamage = default;
-    [SerializeField] private float _defaultCooldown = default;
-    [SerializeField] private float _minCooldown = default;
-    [SerializeField] private Coroutine shooting = default;
-    [SerializeField] private WaitForSeconds cooldownWaitForSeconds = default;
-
-    protected List<Transform> spawnPoints = new List<Transform>();
-    protected int weaponLevel;
-
-    private int _damage;
-    private float _cooldown;
-
-    public void LevelUp()
+    public void Remove()
     {
+        Destroy(gameObject);
+    }
+
+    public void IncreaseDamage(int value)
+    {
+        Damage += Mathf.Clamp(value, 0, int.MaxValue);
+    }
+    
+    public void DecreaseCooldown(float time)
+    {
+        Cooldown -= Mathf.Clamp(time, 0, float.MaxValue);
+    }
+    
+    public void UpLevel()
+    {
+        if (++WeaponLevel >= _maxWeaponLevelUpgrade)
+        {
+            OnMaxWeaponLevel?.Invoke();
+            return;
+        }
+
         UpgradeWeapon();
     }
 
-    private void StartShooting()
-    {
-        shooting = StartCoroutine(Shooting());
-    }
-
-    protected abstract void Shoot();
-
-    protected virtual void SetProjectileDamage()
-    {
-    }
-
-    protected virtual void Initialize()
-    {
-    }
-
     protected abstract void UpgradeWeapon();
-    
-    protected void MaxLevel()
-    {
-        OnMaxWeaponLevel?.Invoke(this, false);
-    }
 
-    private void Start()
-    {
-        InitializeParameters();
-        StartShooting();
-        Initialize();
-    }
-
-    private void InitializeParameters()
+    protected void InitializeParameters()
     {
         Cooldown = _defaultCooldown;
         Damage = _defaultDamage;
-    }
-    
-    private IEnumerator Shooting()
-    {
-        while (true)
-        {
-            Shoot();
-            Debug.Log($"Shoot: {Damage} damage, {Cooldown} cool down");
-            yield return cooldownWaitForSeconds;
-        }
     }
 }

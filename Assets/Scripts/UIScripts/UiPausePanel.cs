@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class UiPausePanel : MonoBehaviour
 {
-    public static event EventHandler<bool> OnGamePause;
+    public event Action<bool> OnGamePaused;
 
     [SerializeField] private GameObject _pausePanel;
 
@@ -18,9 +18,11 @@ public class UiPausePanel : MonoBehaviour
     private void SetPause(bool isPause)
     {
         _pausePanel.SetActive(isPause);
-        OnGamePause?.Invoke(this, isPause);
+        OnGamePaused?.Invoke(isPause);
     }
-
+    
+#if !UNITY_EDITOR
+    
     private void OnApplicationFocus(bool hasFocus)
     {
         if (hasFocus == false)
@@ -29,4 +31,7 @@ public class UiPausePanel : MonoBehaviour
             SetPause(_isPause);
         }
     }
+    
+#endif
+
 }

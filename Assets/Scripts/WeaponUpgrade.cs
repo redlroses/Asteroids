@@ -1,18 +1,12 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class WeaponUpgrade : SpawningObjects
+public class WeaponUpgrade : Bonus
 {
-    public static event EventHandler<bool> OnWeaponUpgradeSpawns;
-    
-    private void Start()
+    protected override void TryApplyBonus(Collider2D collision)
     {
-        OnWeaponUpgradeSpawns?.Invoke(this, false);
-    }
-
-    protected override void ApplyBonus(Player player)
-    {
-        player.Weapon.LevelUp();
+        if (collision.TryGetComponent(out Shooter shooter))
+        {
+            shooter.Weapon.UpLevel();
+        }
     }
 }
-

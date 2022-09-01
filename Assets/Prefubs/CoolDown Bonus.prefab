@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 533308b163213e54791bdfd28015f1eb, type: 3}
-  m_Color: {r: 0.12941177, g: 0.35686275, b: 0.93333334, a: 1}
+  m_Color: {r: 0.6039216, g: 0.23137255, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -98,8 +98,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bonusScaleFactor: 1
-  _rarity: 0
-  _defaultCooldownIncrease: 4
+  _type: 1
+  _cooldownBonus: 0.02
 --- !u!114 &8518761815493809218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,7 +123,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

@@ -2,85 +2,87 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameTimer : MonoBehaviour
 {
-    public static bool IsGlobalPause => !Convert.ToBoolean(Time.timeScale);
+    private readonly List<Coroutine> _coroutines = new List<Coroutine>();
     
-    public static event EventHandler<int> OnUpScore;
-    public static event EventHandler<int> OnUpDifficulty;
-    public static event EventHandler<int> OnUpSpawnChances;
-    public static event EventHandler<bool> OnNextWeaponUpgrade;
+    public event Action<int> OnUpScoreByTime;
+    public event Action<int> OnUpDifficulty;
+    public event Action<int> OnUpSpawnChances;
 
     [SerializeField] private short _timeToScoreUp;
     [SerializeField] private short _timeToDifficultyUp;
     [SerializeField] private short _timeToSpawnChancesUp;
-    [SerializeField] private short _timeToWeaponUpgrade;
-    
-    private bool _isPlay;
+    [SerializeField] private UiPausePanel _uiPausePanel;
+    [SerializeField] private Shield _shield;
+    [SerializeField] private UnityEvent _onEndGame;
 
-    private readonly List<Coroutine> _coroutines = new List<Coroutine>();
+    private bool _isPlay;
 
     private void Start()
     {
-        SetPauseTimeScale(null, false);
+        SetPause(false);
         _isPlay = true;
         _coroutines.Add(StartCoroutine(Timer(_timeToDifficultyUp, OnUpDifficulty)));
         _coroutines.Add(StartCoroutine(Timer(_timeToSpawnChancesUp, OnUpSpawnChances)));
-        _coroutines.Add(StartCoroutine(Timer(_timeToScoreUp, OnUpScore)));
+        _coroutines.Add(StartCoroutine(Timer(_timeToScoreUp, OnUpScoreByTime)));
     }
 
-    private void ShieldSystemOnLoseGame(object sender, EventArgs e)
+    public void PauseGame()
+    {
+        SetPause(true);
+    }
+    public void ResetGame()
+    {
+        SetPause(false);
+    }
+    
+    private void StopCoroutines()
     {
         _isPlay = false;
 
-        foreach (var item in _coroutines)
+        foreach (var coroutine in _coroutines)
         {
-            StopCoroutine(item);
+            StopCoroutine(coroutine);
         }
     }
 
-    private IEnumerator Timer(int time, EventHandler<int> eventHandler)
+    private IEnumerator Timer(int time, Action<int> eventHandler)
     {
         var tick = new WaitForSeconds(time);
         int count = 0;
 
-        do
+        do 
         {
             yield return tick;
             count++;
-            eventHandler?.Invoke(this, count);
-        } while (_isPlay);
+            eventHandler?.Invoke(count);
+        } 
+        while (_isPlay);
     }
 
-    private IEnumerator WeaponUpgradeTimer()
+    private void SetPause(bool isPause)
     {
-        var tick = new WaitForSeconds(_timeToWeaponUpgrade);
-        yield return tick;
-        OnNextWeaponUpgrade?.Invoke(this, true);
+        Time.timeScale = Convert.ToInt32(!isPause);
     }
 
-    private void WeaponUpgradeOnWeaponUpgradeSpawns(object sender, bool e)
+    private void EndGame()
     {
-        _coroutines.Add(StartCoroutine(WeaponUpgradeTimer()));
-    }
-    
-    private void SetPauseTimeScale(object sender, bool flag)
-    {
-        Time.timeScale = Convert.ToInt32(!flag);
+        StopCoroutines();
+        _onEndGame?.Invoke();
     }
     
     private void OnEnable()
     {
-        WeaponUpgrade.OnWeaponUpgradeSpawns += WeaponUpgradeOnWeaponUpgradeSpawns;
-        UiPausePanel.OnGamePause += SetPauseTimeScale;
-        Shield.OnLoseGame += ShieldSystemOnLoseGame;
+        _uiPausePanel.OnGamePaused += SetPause;
+        _shield.OnShipDead += EndGame;
     }
 
     private void OnDisable()
     {
-        WeaponUpgrade.OnWeaponUpgradeSpawns -= WeaponUpgradeOnWeaponUpgradeSpawns;
-        UiPausePanel.OnGamePause -= SetPauseTimeScale;
-        Shield.OnLoseGame -= ShieldSystemOnLoseGame;
+        _uiPausePanel.OnGamePaused -= SetPause;
+        _shield.OnShipDead -= EndGame;
     }
 }

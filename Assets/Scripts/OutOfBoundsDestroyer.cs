@@ -3,6 +3,7 @@
 [RequireComponent(typeof(BoxCollider2D))]
 public class OutOfBoundsDestroyer : MonoBehaviour
 {
+    private readonly float _boundsScale = 2f;
     
     [SerializeField] private Vector2 _offset;
     
@@ -17,6 +18,6 @@ public class OutOfBoundsDestroyer : MonoBehaviour
     {
         Vector2 bounds = PlayableFieldLimiter.GetPlayableField(false);
         bounds += _offset;
-        _collider2D.size = bounds * 2;
+        _collider2D.size = bounds * _boundsScale;
     }
 }

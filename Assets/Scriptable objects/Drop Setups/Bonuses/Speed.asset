@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28bf4d0c0bc2ff9459c7c84183933080, type: 3}
+  m_Name: Speed
+  m_EditorClassIdentifier: 
+  _dropTarget: {fileID: 7387248677632281704, guid: a94451ba0806ea844a1f0dc5584bd7c1,
+    type: 3}
+  _currentChance: 3
+  _minChance: 1
+  _maxChance: 3
+  _chanceStep: 0.04

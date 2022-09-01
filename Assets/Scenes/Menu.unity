@@ -572,64 +572,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 273474672}
   m_CullTransparentMesh: 0
---- !u!1 &285349742
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 285349743}
-  - component: {fileID: 285349744}
-  - component: {fileID: 285349745}
-  m_Layer: 0
-  m_Name: DontDestroyOnLoad
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &285349743
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 285349742}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &285349744
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 285349742}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c45eb5833ccb454692baca4cfa7b5ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerShipPrefab: {fileID: 779713503409133083, guid: c6e49ba5b86c47145bc8537d24163fe7,
-    type: 3}
---- !u!114 &285349745
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 285349742}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7d19b4d9d023524a831af3fef4a6be6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &296512313
 GameObject:
   m_ObjectHideFlags: 0
@@ -865,6 +807,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18e5e4f55b699174dbd12575db6b7008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dataContainer: {fileID: 493977358}
   _scorePanelPrefab: {fileID: 1355093967372030554, guid: 1c7e31124e422884e848a0f100d4e6eb,
     type: 3}
   _content: {fileID: 1911656914}
@@ -1236,7 +1179,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 493977356}
-  - component: {fileID: 493977357}
+  - component: {fileID: 493977358}
   m_Layer: 0
   m_Name: Scripts Container
   m_TagString: Untagged
@@ -1258,7 +1201,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &493977357
+--- !u!114 &493977358
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1267,12 +1210,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 493977355}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa03ee5df9cb20e48b88b5852f429a87, type: 3}
+  m_Script: {fileID: 11500000, guid: b7d19b4d9d023524a831af3fef4a6be6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shipPrefab: {fileID: 779713503409133083, guid: c6e49ba5b86c47145bc8537d24163fe7,
-    type: 3}
-  _currentWeaponText: {fileID: 1373796723}
 --- !u!1 &547909093
 GameObject:
   m_ObjectHideFlags: 0
@@ -2574,10 +2514,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 493977357}
-        m_TargetAssemblyTypeName: PrefabSettings, Assembly-CSharp
-        m_MethodName: SetWeapon
-        m_Mode: 3
+      - m_Target: {fileID: 2060981229}
+        m_TargetAssemblyTypeName: UiWeaponSettings, Assembly-CSharp
+        m_MethodName: SetCannon
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2996,10 +2936,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1373796719}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc10b69d7b65e794582ca339d6d5bc69, type: 3}
+  m_Script: {fileID: 11500000, guid: 71980faf32988884898c87d9f7694329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _text: {fileID: 1373796721}
 --- !u!1 &1374022549
 GameObject:
   m_ObjectHideFlags: 0
@@ -4372,7 +4311,7 @@ GameObject:
   - component: {fileID: 1932438904}
   - component: {fileID: 1932438903}
   m_Layer: 5
-  m_Name: Choose Weapon
+  m_Name: Choose Your Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4417,7 +4356,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Choose Weapon
+  m_text: Choose your Weapon
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9c0ebb2a8fcc6f14995e64e86bb21d40, type: 2}
   m_sharedMaterial: {fileID: 7381427682378879721, guid: 9c0ebb2a8fcc6f14995e64e86bb21d40,
@@ -4445,7 +4384,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 60.6
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4820,10 +4759,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 493977357}
-        m_TargetAssemblyTypeName: PrefabSettings, Assembly-CSharp
-        m_MethodName: SetWeapon
-        m_Mode: 3
+      - m_Target: {fileID: 2060981229}
+        m_TargetAssemblyTypeName: UiWeaponSettings, Assembly-CSharp
+        m_MethodName: SetLaser
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4881,6 +4820,7 @@ GameObject:
   - component: {fileID: 2060981226}
   - component: {fileID: 2060981228}
   - component: {fileID: 2060981227}
+  - component: {fileID: 2060981229}
   m_Layer: 5
   m_Name: Options Panel
   m_TagString: Untagged
@@ -4950,3 +4890,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2060981225}
   m_CullTransparentMesh: 0
+--- !u!114 &2060981229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060981225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c6ea3b40efe1594e9ec2abf911770a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dataContainer: {fileID: 493977358}
+  _currentWeaponText: {fileID: 1373796723}

@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(UiRecord))]
 public class UiRecordsShower : MonoBehaviour
 {
+    [SerializeField] private DataContainer _dataContainer;
     [SerializeField] private GameObject _scorePanelPrefab;
     [SerializeField] private GameObject _content;
 
@@ -12,7 +14,7 @@ public class UiRecordsShower : MonoBehaviour
         _uiRecord = _scorePanelPrefab.GetComponent<UiRecord>();
 
         short count = 0;
-        foreach (var record in DataSaver.GetRecords())
+        foreach (var record in _dataContainer.GetRecords())
         {
             count++;
             _uiRecord.SetData(count, record);

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 1763399402619414255}
   - component: {fileID: 7863883281681548140}
   - component: {fileID: 5275466065160838392}
-  - component: {fileID: 8851120658416065282}
   - component: {fileID: 7844572658434719534}
+  - component: {fileID: 8035302454986842432}
   m_Layer: 8
   m_Name: Small Asteroid
   m_TagString: Untagged
@@ -106,28 +106,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &8851120658416065282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1284166874517548371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9eb1138806af164d8c748311c08e8cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _hitPoints: 500
-  _moveSpeed: 80
-  _rotationsSpeed: 10
-  _currentSize: 0
-  _asteroidPrefub: {fileID: 0}
-  _fragmentationRange: 1
-  _spawnPositions: []
-  _asteroidsParent: {fileID: 0}
-  _asteroidScorePrefab: {fileID: 5613601240350352903, guid: acfbecab85fa1aa49917e6f95c536480,
-    type: 3}
 --- !u!58 &7844572658434719534
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -144,3 +122,21 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.6
+--- !u!114 &8035302454986842432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284166874517548371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9eb1138806af164d8c748311c08e8cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitPoints: 500
+  _scoreAmount: 50
+  _moveSpeedRange: {x: 80, y: 160}
+  _rotationSpeedRange: {x: -50, y: 50}
+  _size: 0
+  _spawnPositions: []
