@@ -21,6 +21,11 @@ public class Laser : Weapon
     private float _laserLength;
     private bool _isActive;
 
+    private void LateUpdate()
+    {
+        VisualizeLaser();
+    }
+
     public override void Shoot()
     {
         var hit = Physics2D.Raycast(_spawnPoint.position, Vector2.up, _distance, _hitMask);
@@ -41,20 +46,15 @@ public class Laser : Weapon
         _lastDamageableAsteroidComponent.TakeDamage(Damage);
     }
 
-    public override void Initialize(Transform projectilesContainer)
+    public override void Initialize()
     {
         InitializeParameters();
         _laserBeamAnimation = _laserBeam.GetComponent<Animation>();
     }
 
-    protected override void UpgradeWeapon()
+    protected override void Upgrade()
     {
         _distance += _distanceUpgrade;
-    }
-
-    private void LateUpdate()
-    {
-        VisualizeLaser();
     }
 
     private void VisualizeLaser()

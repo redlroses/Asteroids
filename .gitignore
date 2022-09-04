@@ -35,3 +35,6 @@ sysinfo.txt
 
 *.apk
 *.unitypackage
+
+*.zip
+*.7z

@@ -8,9 +8,9 @@ public class GameTimer : MonoBehaviour
 {
     private readonly List<Coroutine> _coroutines = new List<Coroutine>();
     
-    public event Action<int> OnUpScoreByTime;
-    public event Action<int> OnUpDifficulty;
-    public event Action<int> OnUpSpawnChances;
+    public event Action<int> UpScoreByTime;
+    public event Action<int> UpDifficulty;
+    public event Action<int> UpSpawnChances;
 
     [SerializeField] private short _timeToScoreUp;
     [SerializeField] private short _timeToDifficultyUp;
@@ -25,9 +25,9 @@ public class GameTimer : MonoBehaviour
     {
         SetPause(false);
         _isPlay = true;
-        _coroutines.Add(StartCoroutine(Timer(_timeToDifficultyUp, OnUpDifficulty)));
-        _coroutines.Add(StartCoroutine(Timer(_timeToSpawnChancesUp, OnUpSpawnChances)));
-        _coroutines.Add(StartCoroutine(Timer(_timeToScoreUp, OnUpScoreByTime)));
+        _coroutines.Add(StartCoroutine(Timer(_timeToDifficultyUp, UpDifficulty)));
+        _coroutines.Add(StartCoroutine(Timer(_timeToSpawnChancesUp, UpSpawnChances)));
+        _coroutines.Add(StartCoroutine(Timer(_timeToScoreUp, UpScoreByTime)));
     }
 
     public void PauseGame()
@@ -76,13 +76,13 @@ public class GameTimer : MonoBehaviour
     
     private void OnEnable()
     {
-        _uiPausePanel.OnGamePaused += SetPause;
-        _shield.OnShipDead += EndGame;
+        _uiPausePanel.GamePaused += SetPause;
+        _shield.ShipDead += EndGame;
     }
 
     private void OnDisable()
     {
-        _uiPausePanel.OnGamePaused -= SetPause;
-        _shield.OnShipDead -= EndGame;
+        _uiPausePanel.GamePaused -= SetPause;
+        _shield.ShipDead -= EndGame;
     }
 }

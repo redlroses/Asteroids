@@ -465,6 +465,7 @@ GameObject:
   - component: {fileID: 305477440}
   - component: {fileID: 305477441}
   - component: {fileID: 305477442}
+  - component: {fileID: 305477443}
   m_Layer: 0
   m_Name: Asteroid Spawner
   m_TagString: Untagged
@@ -487,7 +488,7 @@ Transform:
   - {fileID: 1095049175}
   - {fileID: 545498994}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &305477441
 MonoBehaviour:
@@ -501,13 +502,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5ef0238ba6485c42945b73244c393ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _poolSize: 8
-  _poolExpansionAmount: 4
-  _container: {fileID: 545498994}
-  _objectsCopy:
-  - {fileID: 8035302454986842432, guid: 0287784d2c408a04c92ae4396a5ae1e5, type: 3}
-  - {fileID: 6526750651269673888, guid: fdf0ed881f0ba01479a7612fccfff382, type: 3}
-  - {fileID: 308744554858753513, guid: ba4362c48948f3f40a595ad6903e7593, type: 3}
   _isSpawning: 1
   _maxSpawnTime: 3000
   _minSpawnTime: 200
@@ -531,6 +525,26 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 66fe3b179f9963947bdf7ffc1f9954a3, type: 2}
   - {fileID: 11400000, guid: 15b942c212b961543a42fae056138d9d, type: 2}
   - {fileID: 11400000, guid: 95a91785823da7745a3a0b09f1716672, type: 2}
+--- !u!114 &305477443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305477439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c78201c6fce07948a946dde0d1ed50e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _poolSize: 8
+  _poolExpansionAmount: 4
+  _container: {fileID: 545498994}
+  _isStaticContainer: 0
+  _objectsCopy:
+  - {fileID: 308744554858753513, guid: ba4362c48948f3f40a595ad6903e7593, type: 3}
+  - {fileID: 6526750651269673888, guid: fdf0ed881f0ba01479a7612fccfff382, type: 3}
+  - {fileID: 8035302454986842432, guid: 0287784d2c408a04c92ae4396a5ae1e5, type: 3}
 --- !u!1 &321348733
 GameObject:
   m_ObjectHideFlags: 0
@@ -812,12 +826,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 516043269}
-  - component: {fileID: 516043268}
   - component: {fileID: 516043267}
   - component: {fileID: 516043266}
   - component: {fileID: 516043265}
   - component: {fileID: 516043264}
   - component: {fileID: 516043263}
+  - component: {fileID: 516043268}
   m_Layer: 0
   m_Name: Scropts Container
   m_TagString: Untagged
@@ -842,7 +856,6 @@ MonoBehaviour:
   - {fileID: 2135145080320976776, guid: 9dae3d371565b67428fb201973a3ed94, type: 3}
   _shooter: {fileID: 1714595025}
   _dataContainer: {fileID: 516043264}
-  _projectiles: {fileID: 1989386243}
 --- !u!114 &516043264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -869,7 +882,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameTimer: {fileID: 516043266}
   _dataContainer: {fileID: 516043264}
-  _asteroidsPool: {fileID: 305477441}
+  _asteroidPool: {fileID: 305477443}
   _pointsPerSecond: 1
   _currentScore: 0
 --- !u!114 &516043266
@@ -930,7 +943,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnPointsOffset: {x: 1, y: 1}
-  _targetPointsOffset: {x: -0.5, y: 0}
+  _targetPointsOffset: {x: 1, y: 1}
   _spawnsParent: {fileID: 1566090327}
   _targetsParent: {fileID: 1095049175}
 --- !u!4 &516043269
@@ -1438,6 +1451,7 @@ GameObject:
   - component: {fileID: 866096071}
   - component: {fileID: 866096073}
   - component: {fileID: 866096072}
+  - component: {fileID: 866096074}
   m_Layer: 0
   m_Name: Bonus Spawner
   m_TagString: Untagged
@@ -1457,7 +1471,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &866096072
 MonoBehaviour:
@@ -1490,16 +1504,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f6d7fef6db3a2b4eba22e51156e30bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _poolSize: 2
-  _poolExpansionAmount: 1
+  _asteroidPool: {fileID: 305477443}
+--- !u!114 &866096074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866096070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e53767adf94a8f14188ff207c7c0c02f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _poolSize: 8
+  _poolExpansionAmount: 4
   _container: {fileID: 0}
+  _isStaticContainer: 0
   _objectsCopy:
-  - {fileID: 2077614657184008682, guid: 7b9c808e6ae31aa4690e0297a3c6b3e5, type: 3}
   - {fileID: 8518761815493809219, guid: 6ac26cc187fb00048b2ab70b7b26c5db, type: 3}
+  - {fileID: 2077614657184008682, guid: 7b9c808e6ae31aa4690e0297a3c6b3e5, type: 3}
+  - {fileID: 4489514791010036684, guid: 8091f5d810e876f439244d7af8fc8b4f, type: 3}
   - {fileID: 7387248677632281707, guid: a94451ba0806ea844a1f0dc5584bd7c1, type: 3}
   - {fileID: 2159814256435034470, guid: 959faba08742d6b46bed7f46d4a292d8, type: 3}
-  - {fileID: 4489514791010036684, guid: 8091f5d810e876f439244d7af8fc8b4f, type: 3}
-  _asteroidsPool: {fileID: 305477441}
 --- !u!1 &891017018
 GameObject:
   m_ObjectHideFlags: 0
@@ -2790,7 +2817,7 @@ RectTransform:
   - {fileID: 1142389522}
   - {fileID: 894535596}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2833,6 +2860,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1374773659}
   - component: {fileID: 1374773658}
+  - component: {fileID: 1374773660}
   m_Layer: 0
   m_Name: Score Box Spawner
   m_TagString: Untagged
@@ -2852,12 +2880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a93f7282e6d885644ba014220f07a4d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _poolSize: 4
-  _poolExpansionAmount: 2
-  _container: {fileID: 1374773659}
-  _objectsCopy:
-  - {fileID: 228339968, guid: acfbecab85fa1aa49917e6f95c536480, type: 3}
-  _asteroidsPool: {fileID: 305477441}
+  _asteroidPool: {fileID: 305477443}
 --- !u!4 &1374773659
 Transform:
   m_ObjectHideFlags: 0
@@ -2870,8 +2893,26 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1374773660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1374773657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1deb6f0e5bfc1e5499d55d9c77811978, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _poolSize: 4
+  _poolExpansionAmount: 2
+  _container: {fileID: 0}
+  _isStaticContainer: 0
+  _objectsCopy:
+  - {fileID: 228339968, guid: acfbecab85fa1aa49917e6f95c536480, type: 3}
 --- !u!1 &1381816235
 GameObject:
   m_ObjectHideFlags: 0
@@ -3148,7 +3189,7 @@ Transform:
   - {fileID: 1084390047}
   - {fileID: 1596977249}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!210 &1581228985
 SortingGroup:
@@ -3619,7 +3660,7 @@ PrefabInstance:
     - target: {fileID: 779713503409133085, guid: c6e49ba5b86c47145bc8537d24163fe7,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 779713503409133085, guid: c6e49ba5b86c47145bc8537d24163fe7,
         type: 3}
@@ -3640,7 +3681,8 @@ PrefabInstance:
         type: 3}
       propertyPath: _weapon
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2135145080320976776, guid: 9dae3d371565b67428fb201973a3ed94,
+        type: 3}
     - target: {fileID: 8277337305810945026, guid: c6e49ba5b86c47145bc8537d24163fe7,
         type: 3}
       propertyPath: _isShooting
@@ -3825,7 +3867,7 @@ GameObject:
   - component: {fileID: 1929781465}
   - component: {fileID: 1929781464}
   - component: {fileID: 1929781463}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Out Of Bounds Destroyer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3884,36 +3926,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1989386242
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1989386243}
-  m_Layer: 0
-  m_Name: Projectiles
-  m_TagString: Projectile
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1989386243
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1989386242}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2002060431
 GameObject:

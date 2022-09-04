@@ -14,12 +14,12 @@ public class UiNewRecord : MonoBehaviour
 
     private void OnEnable()
     {
-        _scoreCounter.OnNewRecord += StartAnimation;
+        _scoreCounter.NewRecord += StartAnimation;
     }
 
     private void OnDisable()
     {
-        _scoreCounter.OnNewRecord -= StartAnimation;
+        _scoreCounter.NewRecord -= StartAnimation;
     }
 
     private void StartAnimation()

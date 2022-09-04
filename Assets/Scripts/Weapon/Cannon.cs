@@ -1,35 +1,40 @@
 ﻿using System;
 using UnityEngine;
 
+[RequireComponent(typeof(LaserBulletPool))]
 public class Cannon : Weapon
 {
     [SerializeField] private LaserBullet _bullet;
-    [SerializeField] private Transform _projectilesContainer;
     [SerializeField] private Transform[] _levelShootPoints;
+    
+    private LaserBulletPool _pool;
+
+    private void Awake()
+    {
+        _pool = GetComponent<LaserBulletPool>();
+    }
 
     public override void Shoot()
     {
         foreach (var point in ShootPoints)
         {
-            Instantiate(_bullet, point.position, point.rotation, _projectilesContainer);
+            _pool.EnableCopy(point.position, point.rotation);
         }
     }
 
-    public override void Initialize(Transform projectilesContainer)
+    public override void Initialize()
     {
         InitializeParameters();
-        OnDamageChanged += SetProjectileDamage; //TODO: сделать прямую зависимость без события
         SetProjectileDamage(Damage);
-        _projectilesContainer = projectilesContainer;
         SetSpawnPoints(0);
     }
 
-    protected override void UpgradeWeapon()
+    protected override void Upgrade()
     {
         SetSpawnPoints(WeaponLevel);
     }
 
-    private void SetProjectileDamage(int damage)
+    protected override void SetProjectileDamage(int damage)
     {
         _bullet.SetDamage(damage);
     }

@@ -1,11 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public interface IPoolable<out T>
+public interface IPoolable<out T> where T : Component
 {
-    event Action<T> OnDisabled;
-    
-    bool GetActiveSelf();
-    
-    GameObject GetGameObject();
+    event Action<T> Disabled;
 }

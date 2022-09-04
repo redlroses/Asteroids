@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(TextMeshPro))]
 public class ScoreBox : MonoBehaviour, IPoolable<ScoreBox>
 {
-    public event Action<ScoreBox> OnDisabled;
+    public event Action<ScoreBox> Disabled;
     
     [SerializeField] private TextMeshPro _text;
 
@@ -16,7 +16,7 @@ public class ScoreBox : MonoBehaviour, IPoolable<ScoreBox>
 
     public void Destroy()
     {
-        OnDisabled?.Invoke(this);
+        Disabled?.Invoke(this);
     }
 
     public bool GetActiveSelf()

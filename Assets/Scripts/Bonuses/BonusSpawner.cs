@@ -1,35 +1,37 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(BonusDropGenerator))]
-public class BonusSpawner : ObjectPool<Bonus>
+[RequireComponent(typeof(BonusDropGenerator), typeof(BonusPool))]
+public class BonusSpawner : MonoBehaviour
 {
-    [SerializeField] private AsteroidsPool _asteroidsPool;
+    [SerializeField] private AsteroidPool _asteroidPool;
 
     private BonusDropGenerator _dropGenerator;
+    private BonusPool _pool;
+
+    private void Awake()
+    {
+        _pool = GetComponent<BonusPool>();
+        _dropGenerator = GetComponent<BonusDropGenerator>();
+    }
 
     private void OnEnable()
     { 
-        _asteroidsPool.OnAsteroidDestroyed += SpawnBonus;
+        _asteroidPool.AsteroidDestroyed += SpawnBonus;
     }
 
     private void OnDisable()
     {
-        _asteroidsPool.OnAsteroidDestroyed -= SpawnBonus;
+        _asteroidPool.AsteroidDestroyed -= SpawnBonus;
     }
 
-    protected override void InitializeAwake()
-    {
-        _dropGenerator = GetComponent<BonusDropGenerator>();
-    }
-
-    private void SpawnBonus(Vector3 position, int score)
+    private void SpawnBonus(Asteroid asteroid)
     {
         if (_dropGenerator.TryGetDrop(out Bonus bonus) == false)
         {
             return;
         }
         
-        EnableCopy(position, Quaternion.identity, copy => copy.Type == bonus.Type);
+        _pool.EnableCopy(asteroid.transform.position, Quaternion.identity, copy => copy.Type == bonus.Type);
 
         if (bonus.Type == Bonus.Types.WeaponUpgrade)
         {

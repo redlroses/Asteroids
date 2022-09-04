@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class ScoreCounter : MonoBehaviour
 {
-    public event Action<int> OnScoreUpdate;
-    public event Action OnNewRecord;
+    public event Action<int> ScoreUpdate;
+    public event Action NewRecord;
 
     [SerializeField] private GameTimer _gameTimer;
     [SerializeField] private DataContainer _dataContainer;
-    [SerializeField] private AsteroidsPool _asteroidsPool;
+    [SerializeField] private AsteroidPool _asteroidPool;
     [SerializeField] private int _pointsPerSecond;
     [SerializeField] private int _currentScore;
 
@@ -22,12 +22,12 @@ public class ScoreCounter : MonoBehaviour
         private set
         {
             _currentScore = value;
-            OnScoreUpdate?.Invoke(_currentScore);
+            ScoreUpdate?.Invoke(_currentScore);
             
             if (_isNewRecordWas || _currentScore <= _highScoreRecord) return;
 
             _isNewRecordWas = true;
-            OnNewRecord?.Invoke();
+            NewRecord?.Invoke();
         }
     }
 
@@ -46,21 +46,21 @@ public class ScoreCounter : MonoBehaviour
         CurrentScore += _pointsPerSecond;
     }
 
-    private void IncreaseScoreByAsteroid(Vector3 position, int score)
+    private void IncreaseScoreByAsteroid(Asteroid asteroid)
     {
-        CurrentScore += score;
+        CurrentScore += asteroid.ScoreAmount;
     }
 
     private void OnEnable()
     {
-        _gameTimer.OnUpScoreByTime += IncreaseScoreByTime;
-        _asteroidsPool.OnAsteroidDestroyed += IncreaseScoreByAsteroid;
+        _gameTimer.UpScoreByTime += IncreaseScoreByTime;
+        _asteroidPool.AsteroidDestroyed += IncreaseScoreByAsteroid;
     }
 
     private void OnDisable()
     {
-        _gameTimer.OnUpScoreByTime -= IncreaseScoreByTime;
-        _asteroidsPool.OnAsteroidDestroyed -= IncreaseScoreByAsteroid;
+        _gameTimer.UpScoreByTime -= IncreaseScoreByTime;
+        _asteroidPool.AsteroidDestroyed -= IncreaseScoreByAsteroid;
     }
 
     private void OnDestroy()

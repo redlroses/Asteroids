@@ -11,12 +11,12 @@ public class UiTimeDisplayText : UiDisplayText
 
     private void OnEnable()
     {
-        _gameTimer.OnUpScoreByTime += DisplayText;
+        _gameTimer.UpScoreByTime += DisplayText;
     }
 
     private void OnDisable()
     {
-        _gameTimer.OnUpScoreByTime -= DisplayText;
+        _gameTimer.UpScoreByTime -= DisplayText;
     }
 
     public void StartPlay()

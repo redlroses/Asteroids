@@ -4,11 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-[RequireComponent(typeof(AsteroidDropGenerator))]
-public class AsteroidsPool : ObjectPool<Asteroid>
+[RequireComponent(typeof(AsteroidDropGenerator), typeof(AsteroidPool))]
+public class AsteroidSpawner : MonoBehaviour
 {
-    public event Action<Vector3, int> OnAsteroidDestroyed;
-    
     private readonly float _millisecondsToSeconds = 1000f;
     private readonly List<Transform> _lookAtTargets = new List<Transform>();
     private readonly List<Transform> _spawnTargets = new List<Transform>();
@@ -23,6 +21,7 @@ public class AsteroidsPool : ObjectPool<Asteroid>
 
     private float _spawnCoolDownFloat;
     private AsteroidDropGenerator _dropGenerator;
+    private AsteroidPool _pool;
     private Coroutine _spawnerCoroutine;
     private WaitForSeconds _spawnCoolDown;
 
@@ -36,14 +35,29 @@ public class AsteroidsPool : ObjectPool<Asteroid>
         }
     }
 
+    private void Awake()
+    {
+        _pool = GetComponent<AsteroidPool>();
+        _dropGenerator = GetComponent<AsteroidDropGenerator>();
+    }
+
+    private void Start()
+    {
+        TimeBetweenSpawns = _maxSpawnTime;
+        SetTargets();
+        BeginSpawn();
+    }
+
     private void OnEnable()
     {
-        _gameTimer.OnUpDifficulty += UpDifficulty;
+        _pool.AsteroidDestroyed += SpawnFromAsteroid;
+        _gameTimer.UpDifficulty += UpDifficulty;
     }
     
     private void OnDisable()
     {
-        _gameTimer.OnUpDifficulty -= UpDifficulty;
+        _pool.AsteroidDestroyed -= SpawnFromAsteroid;
+        _gameTimer.UpDifficulty -= UpDifficulty;
     }
 
     [ContextMenu("BeginSpawn")]
@@ -60,29 +74,6 @@ public class AsteroidsPool : ObjectPool<Asteroid>
     {
         StopCoroutine(_spawnerCoroutine);
         _spawnerCoroutine = null;
-    }
-
-    protected override void InitializeAwake()
-    {
-        _dropGenerator = GetComponent<AsteroidDropGenerator>();
-    }
-
-    protected override void InitializeStart()
-    {
-        TimeBetweenSpawns = _maxSpawnTime;
-        SetTargets();
-        BeginSpawn();
-    }
-
-    protected override void DisableCopy(Asteroid copy)
-    {
-        if (copy.IsDestroyedByPlayer)
-        {
-            OnAsteroidDestroyed?.Invoke(copy.transform.position, copy.ScoreAmount);
-            SpawnAsteroid(copy);
-        }
-        
-        base.DisableCopy(copy);
     }
 
     private void SetTargets()
@@ -136,21 +127,14 @@ public class AsteroidsPool : ObjectPool<Asteroid>
         throw new NullReferenceException("Asteroid can not be null");
     }
 
-    private void SpawnAsteroid(int sizeIndex, int spawnPlaceIndex)
-    {
-        var asteroid = EnableCopy(_spawnTargets[spawnPlaceIndex].position, _spawnTargets[spawnPlaceIndex].rotation,
-            copy => (int) copy.Size == sizeIndex);
-        asteroid.Enable();
-    }
-
     private void SpawnAsteroid(Asteroid randomAsteroid, int spawnPlaceIndex)
     {
-        var asteroid = EnableCopy(_spawnTargets[spawnPlaceIndex].position, _spawnTargets[spawnPlaceIndex].rotation,
+        var asteroid = _pool.EnableCopy(_spawnTargets[spawnPlaceIndex].position, _spawnTargets[spawnPlaceIndex].rotation,
             copy => copy.Size == randomAsteroid.Size);
         asteroid.Enable();
     }
 
-    private void SpawnAsteroid(Asteroid asteroidFrom)
+    private void SpawnFromAsteroid(Asteroid asteroidFrom)
     {
         if (asteroidFrom.Size == Asteroid.SizeType.Small)
         {
@@ -160,10 +144,10 @@ public class AsteroidsPool : ObjectPool<Asteroid>
         foreach (var spawnPosition in asteroidFrom.SpawnPositions)
         {
             var asteroidRotationVector = (Vector2) spawnPosition.localPosition.normalized;
-            Vector2 newDirection = asteroidFrom.Velocity.normalized + asteroidRotationVector;
+            Vector2 newDirection = asteroidFrom.Mover.Velocity.normalized + asteroidRotationVector;
             float angle = Vector2.SignedAngle(Vector2.up, newDirection);
             var asteroidRotation = Quaternion.AngleAxis(angle, Vector3.forward);
-            var asteroid = EnableCopy(spawnPosition.position, asteroidRotation, copy => (int) copy.Size == (int) asteroidFrom.Size - 1);
+            var asteroid = _pool.EnableCopy(spawnPosition.position, asteroidRotation, copy => (int) copy.Size == (int) asteroidFrom.Size - 1);
             asteroid.Enable();
         }
     }
@@ -175,7 +159,7 @@ public class AsteroidsPool : ObjectPool<Asteroid>
         
         if (currentSpawnTime < _minSpawnTime)
         {
-            _gameTimer.OnUpDifficulty -= UpDifficulty;
+            _gameTimer.UpDifficulty -= UpDifficulty;
             currentSpawnTime = _minSpawnTime;
         }
         

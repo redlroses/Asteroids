@@ -10,15 +10,15 @@ public abstract class Bonus : MonoBehaviour, IPoolable<Bonus>
 
     public Types Type => _type;
     
-    public event Action<Bonus> OnDisabled;
+    public event Action<Bonus> Disabled;
     
     [SerializeField, Min(0f)] protected float _bonusScaleFactor;
     [SerializeField] protected Types _type;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        TryApplyBonus(collision);
-        OnDisabled?.Invoke(this);
+        TryApply(collision);
+        Disabled?.Invoke(this);
     }
 
     public bool GetActiveSelf()
@@ -31,5 +31,5 @@ public abstract class Bonus : MonoBehaviour, IPoolable<Bonus>
         return gameObject;
     }
     
-    protected abstract void TryApplyBonus(Collider2D collision);
+    protected abstract void TryApply(Collider2D collision);
 }

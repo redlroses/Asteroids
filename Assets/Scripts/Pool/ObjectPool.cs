@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-public abstract class ObjectPool<T> : MonoBehaviour where T : IPoolable<T>
+public abstract class ObjectPool<T> : MonoBehaviour where T : Component, IPoolable<T>
 {
     private readonly List<T> _objectsPool;
 
@@ -13,6 +13,7 @@ public abstract class ObjectPool<T> : MonoBehaviour where T : IPoolable<T>
     [SerializeField] private int _poolSize = 8;
     [SerializeField] private int _poolExpansionAmount = 4;
     [SerializeField] private Transform _container;
+    [SerializeField] private bool _isStaticContainer;
     [SerializeField] private List<T> _objectsCopy;
 
     protected ObjectPool()
@@ -45,36 +46,36 @@ public abstract class ObjectPool<T> : MonoBehaviour where T : IPoolable<T>
     {
     }
 
-    protected T EnableCopy()
+    public T EnableCopy()
     {
         var objectCopy = GetInactiveObject();
-        objectCopy.GetGameObject().SetActive(false);
+        objectCopy.gameObject.SetActive(false);
         return objectCopy;
     }
 
-    protected T EnableCopy(Vector3 position)
+    public T EnableCopy(Vector3 position)
     {
         var objectCopy = GetInactiveObject();
-        var gameObjectCopy = objectCopy.GetGameObject();
+        var gameObjectCopy = objectCopy.gameObject;
         gameObjectCopy.transform.position = position;
         gameObjectCopy.SetActive(true);
         return objectCopy;
     }
 
-    protected T EnableCopy(Vector3 position, Quaternion rotation)
+    public T EnableCopy(Vector3 position, Quaternion rotation)
     {
         var objectCopy = GetInactiveObject();
-        var gameObjectCopy = objectCopy.GetGameObject();
+        var gameObjectCopy = objectCopy.gameObject;
         gameObjectCopy.transform.position = position;
         gameObjectCopy.transform.rotation = rotation;
         gameObjectCopy.SetActive(true);
         return objectCopy;
     }
 
-    protected T EnableCopy(Vector3 position, Quaternion rotation, Transform parent)
+    public T EnableCopy(Vector3 position, Quaternion rotation, Transform parent)
     {
         var objectCopy = GetInactiveObject();
-        var gameObjectCopy = objectCopy.GetGameObject();
+        var gameObjectCopy = objectCopy.gameObject;
         gameObjectCopy.transform.position = position;
         gameObjectCopy.transform.rotation = rotation;
         gameObjectCopy.transform.parent = parent;
@@ -82,20 +83,20 @@ public abstract class ObjectPool<T> : MonoBehaviour where T : IPoolable<T>
         return objectCopy;
     }
 
-    protected T EnableCopy(Vector3 position, Quaternion rotation, Func<T, bool> filter)
+    public T EnableCopy(Vector3 position, Quaternion rotation, Func<T, bool> filter)
     {
         var objectCopy = GetInactiveObject(filter);
-        var gameObjectCopy = objectCopy.GetGameObject();
+        var gameObjectCopy = objectCopy.gameObject;
         gameObjectCopy.transform.position = position;
         gameObjectCopy.transform.rotation = rotation;
         gameObjectCopy.SetActive(true);
         return objectCopy;
     }
 
-    protected T EnableCopy(Vector3 position, Quaternion rotation, Transform parent, Func<T, bool> filter)
+    public T EnableCopy(Vector3 position, Quaternion rotation, Transform parent, Func<T, bool> filter)
     {
         var objectCopy = GetInactiveObject(filter);
-        var gameObjectCopy = objectCopy.GetGameObject();
+        var gameObjectCopy = objectCopy.gameObject;
         gameObjectCopy.transform.position = position;
         gameObjectCopy.transform.rotation = rotation;
         gameObjectCopy.transform.parent = parent;
@@ -105,19 +106,25 @@ public abstract class ObjectPool<T> : MonoBehaviour where T : IPoolable<T>
 
     protected virtual void DisableCopy(T copy)
     {
-        copy.GetGameObject().SetActive(false);
+        copy.gameObject.SetActive(false);
     }
 
     private void CreateContainer()
     {
         _container = new GameObject($"{typeof(T)} container").transform;
+
+        if (_isStaticContainer)
+        {
+            return;
+        }
+        
         _container.parent = transform;
     }
 
     private T GetNewObject(T copy)
     {
-        var objectCopy = Object.Instantiate(copy.GetGameObject().gameObject, _container);
-        objectCopy.gameObject.SetActive(false);
+        var objectCopy = Instantiate(copy.gameObject.gameObject, _container);
+        objectCopy.SetActive(false);
         return objectCopy.GetComponent<T>();
     }
 
@@ -130,7 +137,7 @@ public abstract class ObjectPool<T> : MonoBehaviour where T : IPoolable<T>
         
         return _objectsPool
             .Where(filter ?? (copy => true))
-            .First(copy => copy.GetActiveSelf() == false);
+            .First(copy => copy.gameObject.activeSelf == false);
     }
 
     private int GetInactiveObjectsCount(Func<T, bool> filter = null)
@@ -138,7 +145,7 @@ public abstract class ObjectPool<T> : MonoBehaviour where T : IPoolable<T>
         
         int count = _objectsPool
             .Where(filter ?? (copy => true))
-            .Count(copy => copy.GetActiveSelf() == false);
+            .Count(copy => copy.gameObject.activeSelf == false);
 
         return count;
     }
@@ -172,14 +179,14 @@ public abstract class ObjectPool<T> : MonoBehaviour where T : IPoolable<T>
     private void AddToPool(T copy)
     {
         _objectsPool.Add(copy);
-        copy.OnDisabled += DisableCopy;
+        copy.Disabled += DisableCopy;
     }
 
     private void RemoveFromPool(T copy)
     {
-        copy.OnDisabled -= DisableCopy;
+        copy.Disabled -= DisableCopy;
         _objectsPool.Remove(copy);
-        Destroy(copy.GetGameObject());
+        Destroy(copy.gameObject);
     }
 }
 

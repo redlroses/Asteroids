@@ -4,9 +4,6 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
-    public event Action OnMaxWeaponLevel;
-    public event Action<int> OnDamageChanged;
-
     protected readonly List<Transform> ShootPoints = new List<Transform>();
     
     [SerializeField] private int _defaultDamage;
@@ -17,6 +14,7 @@ public abstract class Weapon : MonoBehaviour
 
     protected int WeaponLevel;
 
+    private GameTimer _gameTimer;
     private int _damage;
     private float _cooldown;
 
@@ -36,13 +34,19 @@ public abstract class Weapon : MonoBehaviour
         private set
         {
             _damage = value > _maxDamage ? _maxDamage : value;
-            OnDamageChanged?.Invoke(_damage);
+            SetProjectileDamage(_damage);
         }
     }
 
     public abstract void Shoot();
 
-    public abstract void Initialize(Transform projectilesContainer);
+    public abstract void Initialize();
+
+    protected abstract void Upgrade();
+
+    protected virtual void SetProjectileDamage(int damage)
+    {
+    }
 
     public void Remove()
     {
@@ -53,24 +57,21 @@ public abstract class Weapon : MonoBehaviour
     {
         Damage += Mathf.Clamp(value, 0, int.MaxValue);
     }
-    
+
     public void DecreaseCooldown(float time)
     {
         Cooldown -= Mathf.Clamp(time, 0, float.MaxValue);
     }
-    
+
     public void UpLevel()
     {
         if (++WeaponLevel >= _maxWeaponLevelUpgrade)
         {
-            OnMaxWeaponLevel?.Invoke();
             return;
         }
 
-        UpgradeWeapon();
+        Upgrade();
     }
-
-    protected abstract void UpgradeWeapon();
 
     protected void InitializeParameters()
     {

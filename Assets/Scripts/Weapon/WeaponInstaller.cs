@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -9,19 +7,22 @@ public class WeaponInstaller : MonoBehaviour
     [SerializeField] private List<Weapon> _weapons;
     [SerializeField] private Shooter _shooter;
     [SerializeField] private DataContainer _dataContainer;
-    [SerializeField] private Transform _projectiles;
 
     private void Awake()
     {
         if (_shooter.Weapon == null)
         {
-            SetDefaultWeapon();
+            InstallSaved();
+        }
+        else
+        {
+            InstallCurrent();
         }
     }
 
-    private bool TryInstallWeapon(Type weaponType) 
+    public bool TryInstall<T>() where T : Weapon
     {
-        var currentWeapon = _weapons.First(weapon => weapon.GetType() == weaponType);
+        var currentWeapon = _weapons.First(weapon => weapon.GetType() == typeof(T));
 
         if (currentWeapon == null)
         {
@@ -33,29 +34,38 @@ public class WeaponInstaller : MonoBehaviour
             _shooter.Weapon.Remove();
         }
         
-        currentWeapon = Instantiate(currentWeapon, _shooter.transform);
-        currentWeapon.Initialize(_projectiles);
-        _shooter.SetWeapon(currentWeapon);
-        _shooter.StartShooting();
-        
+        Install(currentWeapon);
         return true;
     }
-    
+
     [ContextMenu("SetCannon")]
-    private void SetDefaultCannon()
+    private void SetCannon()
     {
-        TryInstallWeapon(typeof(Cannon));
+        TryInstall<Cannon>();
     }
     
     [ContextMenu("SetLaser")]
-    private void SetDefaultLaser()
+    private void SettLaser()
     {
-        TryInstallWeapon(typeof(Laser));
+        TryInstall<Laser>();
     }
 
-    private void SetDefaultWeapon()
+    private void InstallSaved()
     {
         var chosenWeaponType = _dataContainer.GetChosenWeapon();
-        TryInstallWeapon(chosenWeaponType);
+        Install(_weapons.First(weapon => weapon.GetType() == chosenWeaponType));
+    }
+
+    private void InstallCurrent()
+    {
+        Install(_shooter.Weapon);
+    }
+
+    private void Install(Weapon weapon)
+    {
+        weapon = Instantiate(weapon, _shooter.transform);
+        weapon.Initialize();
+        _shooter.SetWeapon(weapon);
     }
 }
+

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5275466065160838392}
   - component: {fileID: 7844572658434719534}
   - component: {fileID: 8035302454986842432}
+  - component: {fileID: -5754080280084674973}
   m_Layer: 8
   m_Name: Small Asteroid
   m_TagString: Untagged
@@ -136,7 +137,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hitPoints: 500
   _scoreAmount: 50
-  _moveSpeedRange: {x: 80, y: 160}
-  _rotationSpeedRange: {x: -50, y: 50}
   _size: 0
   _spawnPositions: []
+--- !u!114 &-5754080280084674973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284166874517548371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84f0ea3c3306e0348aca6f01afcc86be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveSpeedRange: {x: 50, y: 150}
+  _rotationSpeedRange: {x: -50, y: 50}

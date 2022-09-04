@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 3946073653063139089}
   - component: {fileID: 3716341397362429944}
   - component: {fileID: 6526750651269673888}
+  - component: {fileID: 7313299004941569960}
   m_Layer: 8
   m_Name: Medium Asteroid
   m_TagString: Untagged
@@ -198,9 +199,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hitPoints: 1000
   _scoreAmount: 200
-  _moveSpeedRange: {x: 125, y: 175}
-  _rotationSpeedRange: {x: -100, y: 100}
   _size: 1
   _spawnPositions:
   - {fileID: 8551369833665922132}
   - {fileID: 8006242521571147}
+--- !u!114 &7313299004941569960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4532611573187855591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84f0ea3c3306e0348aca6f01afcc86be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveSpeedRange: {x: 50, y: 150}
+  _rotationSpeedRange: {x: -50, y: 50}

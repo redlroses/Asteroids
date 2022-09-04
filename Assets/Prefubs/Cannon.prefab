@@ -229,6 +229,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2709068538348120748}
   - component: {fileID: 2135145080320976776}
+  - component: {fileID: 2346615514357673376}
   m_Layer: 0
   m_Name: Cannon
   m_TagString: Untagged
@@ -269,11 +270,28 @@ MonoBehaviour:
   _minCooldown: 500
   _maxWeaponLevelUpgrade: 3
   _bullet: {fileID: 6338429111593801951, guid: a6509c633dd10494fb41992679563616, type: 3}
-  _projectilesContainer: {fileID: 0}
   _levelShootPoints:
   - {fileID: 1405008751046388247}
   - {fileID: 3090866853292090412}
   - {fileID: 740873656014245304}
+--- !u!114 &2346615514357673376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7805212618184936436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c61055c0d83ac5499435160ee2cbd0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _poolSize: 4
+  _poolExpansionAmount: 1
+  _container: {fileID: 0}
+  _isStaticContainer: 1
+  _objectsCopy:
+  - {fileID: 6338429111593801951, guid: a6509c633dd10494fb41992679563616, type: 3}
 --- !u!1 &8366197327355570229
 GameObject:
   m_ObjectHideFlags: 0

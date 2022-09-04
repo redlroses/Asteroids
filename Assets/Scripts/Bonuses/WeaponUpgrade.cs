@@ -2,7 +2,7 @@
 
 public class WeaponUpgrade : Bonus
 {
-    protected override void TryApplyBonus(Collider2D collision)
+    protected override void TryApply(Collider2D collision)
     {
         if (collision.TryGetComponent(out Shooter shooter))
         {

@@ -12,7 +12,7 @@ public class BonusDropSetup : DynamicDropSetup
     {
         base.Initialize();
         _gameTimer = gameTimer;
-        _gameTimer.OnUpSpawnChances += TryUpSpawnChance;
+        _gameTimer.UpSpawnChances += TryUpSpawnChance;
         _type = DropTarget.GetComponent<Bonus>().Type;
     }
 
@@ -20,7 +20,7 @@ public class BonusDropSetup : DynamicDropSetup
     {
         if (IsMaxChance)
         {
-            _gameTimer.OnUpSpawnChances -= TryUpSpawnChance;
+            _gameTimer.UpSpawnChances -= TryUpSpawnChance;
         }
         
         UpChance();

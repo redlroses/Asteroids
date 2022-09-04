@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 7667246735649788456}
   - component: {fileID: 2582587233627419410}
   - component: {fileID: 308744554858753513}
+  - component: {fileID: -209771814958527111}
   m_Layer: 8
   m_Name: Big Asteroid
   m_TagString: Untagged
@@ -168,12 +169,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hitPoints: 2000
   _scoreAmount: 300
-  _moveSpeedRange: {x: 200, y: 300}
-  _rotationSpeedRange: {x: -150, y: 150}
   _size: 2
   _spawnPositions:
   - {fileID: 4721511952687517693}
   - {fileID: 7941869347545748745}
+--- !u!114 &-209771814958527111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7828203400946476123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84f0ea3c3306e0348aca6f01afcc86be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveSpeedRange: {x: 50, y: 150}
+  _rotationSpeedRange: {x: -50, y: 50}
 --- !u!1 &9015765010682530152
 GameObject:
   m_ObjectHideFlags: 0

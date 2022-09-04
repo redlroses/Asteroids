@@ -6,11 +6,11 @@ public class UiScoreDisplayText : UiDisplayText
     
     private void OnEnable()
     {
-        _scoreCounter.OnScoreUpdate += DisplayText;
+        _scoreCounter.ScoreUpdate += DisplayText;
     }
     
     private void OnDisable()
     {
-        _scoreCounter.OnScoreUpdate -= DisplayText;
+        _scoreCounter.ScoreUpdate -= DisplayText;
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(SpriteRenderer))]
 public class Shield : MonoBehaviour
 {
-    public event Action OnShipDead;
+    public event Action ShipDead;
 
     [SerializeField] private int _charges = 1;
     [SerializeField] private float _rechargeSeconds = 2.75f;
@@ -87,7 +87,7 @@ public class Shield : MonoBehaviour
 
     private void Dead()
     {
-        OnShipDead?.Invoke();
+        ShipDead?.Invoke();
         Destroy(gameObject);
     }
 

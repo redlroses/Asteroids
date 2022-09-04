@@ -17,9 +17,10 @@ public class Shooter : MonoBehaviour
     {
         _weapon = newWeapon;
         SetCooldown(_weapon.Cooldown);
+        StartShooting();
     }
 
-    public void StartShooting()
+    private void StartShooting()
     {
         _isShooting = true;
 
